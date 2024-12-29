@@ -8,33 +8,62 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./search.component.css']
 })
 export class SearchComponent implements OnInit {
-  searchKeyword: string = '';  
-  articles: any[] = [];  
-  apiUrl: string = 'https://newsapi.org/v2/everything';
-  apiKey: string = 'b8504bb386304c0b8cc1161f3a8cc2d8';  
-  loading: boolean = false;  // Add a loading flag
+  searchKeyword: string = '';
+  articles: any[] = [];
+  validArticles: any[] = [];
+  apiUrl: string = '';
+  loading: boolean = false;
+  currentPage: number = 1;
+  itemsPerPage: number = 5;
+  totalItems: number = 0;
 
   constructor(private activatedRoute: ActivatedRoute, private http: HttpClient) {}
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
-      this.searchKeyword = params['q'];  
+      this.searchKeyword = params['q'];
       if (this.searchKeyword) {
-        this.fetchNews();  
+        this.setApiUrl();
+        this.fetchNews();
       }
     });
   }
 
-  fetchNews() {
-    this.loading = true;  // Set loading to true when the request starts
-    const url = `${this.apiUrl}?q=${this.searchKeyword}&apiKey=${this.apiKey}&sortBy=popularity`;
-    this.http.get(url).subscribe((response: any) => {
-      this.articles = response.articles;  
-      console.log('Articles:', this.articles);
-      this.loading = false;  // Set loading to false when the response is received
+  private setApiUrl(): void {
+    const isProduction = window.location.hostname !== 'localhost';
+    this.apiUrl = isProduction
+      ? '/api/news'
+      : `https://newsapi.org/v2/everything?q=${this.searchKeyword}&apiKey=b8504bb386304c0b8cc1161f3a8cc2d8`;
+  }
+
+  fetchNews(): void {
+    this.loading = true;
+    this.http.get(this.apiUrl).subscribe((response: any) => {
+      this.articles = response.articles;
+      this.validArticles = this.articles.filter(article => article.urlToImage);
+      this.totalItems = this.validArticles.length;
+      this.loading = false;
     }, error => {
       console.error('Error fetching news:', error);
-      this.loading = false;  // Ensure loading is false even if there's an error
+      this.loading = false;
     });
+  }
+
+  get currentPageArticles(): any[] {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    return this.validArticles.slice(startIndex, endIndex);
+  }
+
+  nextPage(): void {
+    if (this.currentPage < Math.ceil(this.totalItems / this.itemsPerPage)) {
+      this.currentPage++;
+    }
+  }
+
+  prevPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+    }
   }
 }

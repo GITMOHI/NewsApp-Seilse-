@@ -1,16 +1,14 @@
-<div class="search-container">
-    <h2>Search Results for "{{ searchKeyword }}"</h2>
-  
-    <!-- Show Loader if loading is true -->
-    <div *ngIf="loading" class="loader">
-      Loading...
-    </div>
-  
-    <!-- If articles are available and loading is false -->
-    <div *ngIf="!loading && articles.length > 0; else noResults">
-      <div *ngFor="let article of articles" class="article-card">
-        <img
-          [src]="article.urlToImage || 'assets/placeholder.png'"
+<div>
+  <h2>Search Results for "{{ searchKeyword }}"</h2>
+
+  <div *ngIf="loading" class="loader">
+    Loading...
+  </div>
+
+  <div class="search-container" *ngIf="!loading && validArticles.length > 0; else noResults">
+    <div *ngFor="let article of currentPageArticles" class="article-card-container">
+      <div class="article-card">
+        <img [src]="article.urlToImage || 'assets/placeholder.png'" 
           alt="Image for {{ article.title }}"
           class="article-image"
         />
@@ -25,10 +23,15 @@
         </div>
       </div>
     </div>
-  
-    <!-- No Results Template -->
-    <ng-template #noResults>
-      <p>No results found for "{{ searchKeyword }}". Try another search.</p>
-    </ng-template>
   </div>
-  
+
+  <div *ngIf="!loading && validArticles.length > 0" class="pagination-controls">
+    <button (click)="prevPage()" [disabled]="currentPage === 1">Previous</button>
+    <span>Page {{ currentPage }} of {{ totalItems / itemsPerPage | number: '1.0-0' }}</span>
+    <button (click)="nextPage()" [disabled]="currentPage >= totalItems / itemsPerPage">Next</button>
+  </div>
+
+  <ng-template #noResults>
+    <p>No results found for "{{ searchKeyword }}". Try another search.</p>
+  </ng-template>
+</div>
