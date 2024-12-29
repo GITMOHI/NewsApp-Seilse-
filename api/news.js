@@ -1,4 +1,4 @@
-const fetch = require('node-fetch');
+import fetch from 'node-fetch';
 
 module.exports = async (req, res) => {
   const apiKey = 'b8504bb386304c0b8cc1161f3a8cc2d8'; // Replace with your NewsAPI key
