@@ -74,6 +74,7 @@
             "browserTarget": "my-angular-news-app:build"
           }
         },
+        
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
