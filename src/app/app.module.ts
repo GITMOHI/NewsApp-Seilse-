@@ -5,17 +5,22 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NewsListComponent } from './components/news-list/news-list.component';
 import { ArticleDetailComponent } from './components/article-detail/article-detail.component';
+import { SearchComponent } from './components/search/search.component';
+import { FormsModule } from '@angular/forms'; // Import FormsModule
+
 
 @NgModule({
   declarations: [
     AppComponent,
     NewsListComponent,
-    ArticleDetailComponent
+    ArticleDetailComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule // Ensure HttpClientModule is imported for API calls
+    HttpClientModule ,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

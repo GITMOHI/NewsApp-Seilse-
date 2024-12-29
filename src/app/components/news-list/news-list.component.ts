@@ -8,12 +8,25 @@ import { NewsService } from '../../services/news.service';
 })
 export class NewsListComponent implements OnInit {
   articles: any[] = [];
+  isLoading: boolean = false;  // Add loading flag to track API call status
 
   constructor(private newsService: NewsService) {}
 
   ngOnInit(): void {
-    this.newsService.getNews().subscribe((data) => {
-      this.articles = data.articles;
-    });
+    this.fetchNews();
+  }
+
+  fetchNews() {
+    this.isLoading = true;  // Set loading to true before the API call
+    this.newsService.getNews().subscribe(
+      (data) => {
+        this.articles = data.articles;
+        this.isLoading = false;  // Set loading to false once data is fetched
+      },
+      (error) => {
+        console.error('Error fetching news:', error);
+        this.isLoading = false;  // Set loading to false even if there's an error
+      }
+    );
   }
 }

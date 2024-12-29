@@ -5,6 +5,17 @@
       <a routerLink="/" class="navbar-link">Home</a>
       <a routerLink="/about" class="navbar-link">About</a>
       <a routerLink="/contact" class="navbar-link">Contact</a>
+      <!-- Search Form -->
+      <form class="navbar-search" (submit)="onSearch(searchKeyword)">
+        <input 
+          type="text" 
+          [(ngModel)]="searchKeyword" 
+          name="search" 
+          placeholder="Search news..." 
+          class="search-input" 
+          required />
+        <button type="submit" class="search-button">Search</button>
+      </form>
     </div>
   </div>
 </nav>
@@ -35,11 +46,10 @@
     </div>
     <div class="footer-newsletter">
       <h4 class="footer-heading">Subscribe to Our Newsletter</h4>
-      <form >
+      <form>
         <input type="email" placeholder="Enter your email" class="footer-input" required />
         <button type="submit" class="footer-button">Subscribe</button>
       </form>
     </div>
   </div>
 </footer>
-
