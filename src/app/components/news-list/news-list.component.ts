@@ -21,11 +21,11 @@ export class NewsListComponent implements OnInit {
     this.newsService.getNews().subscribe(
       (data) => {
         this.articles = data.articles;
-        this.isLoading = false;  // Set loading to false once data is fetched
+        this.isLoading = false;  
       },
       (error) => {
         console.error('Error fetching news:', error);
-        this.isLoading = false;  // Set loading to false even if there's an error
+        this.isLoading = false;  
       }
     );
   }
