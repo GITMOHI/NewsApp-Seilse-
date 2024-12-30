@@ -28,4 +28,4 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 
 
-## demo youtube link:  [](https://youtu.be/Fu1pvdxIa3E)
+## demo youtube link:  [NewsApp-youtube](https://youtu.be/Fu1pvdxIa3E)
