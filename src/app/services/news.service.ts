@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 export class NewsService {
   // Use dynamic detection of environment
   private API_URL = this.isProduction()
-    ? 'https://news-app-seilse.vercel.app/api/top-headlines'
+    ? 'https://news-app-seilse.vercel.app/top-headlines'
     : 'https://newsapi.org/v2/top-headlines?country=us&apiKey=b8504bb386304c0b8cc1161f3a8cc2d8';
 
   constructor(private http: HttpClient) {}
